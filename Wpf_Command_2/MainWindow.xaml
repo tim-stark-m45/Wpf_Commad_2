@@ -1,0 +1,41 @@
+﻿<Window x:Class="Wpf_Command_2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf_Command_2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="300" WindowStartupLocation="CenterScreen" Name="Main">
+    <Window.Resources>
+        <DataTemplate x:Key="ToDoItem">
+            <DockPanel>
+                <Button 
+                    Command="{Binding DataContext.DoneCommand, ElementName=Main}" 
+                    CommandParameter="{Binding}"
+                    FontSize="30" 
+                    DockPanel.Dock="Right">✔</Button>
+                <UniformGrid Rows="1" Columns="2">
+                    <Label Content="{Binding Name}"/>
+                    <Label HorizontalAlignment="Right" Content="{Binding IsDone}"/>
+                </UniformGrid>
+            </DockPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <ListBox 
+            ItemsSource="{Binding Items}" 
+            FontSize="30" 
+            ItemTemplate="{StaticResource ToDoItem}"
+            HorizontalContentAlignment="Stretch"
+            SelectedItem="{Binding SelectedTask}"></ListBox>
+        <DockPanel Grid.Row="1">
+            <Button Command="{Binding AddTaskCommand}" FontSize="30" DockPanel.Dock="Right">➕</Button>
+            <Button Command="{Binding RemoveCommand}" FontSize="30" DockPanel.Dock="Right">🗑</Button>
+            <TextBox Text="{Binding TaskName, UpdateSourceTrigger=PropertyChanged}" FontSize="30" DockPanel.Dock="Left"></TextBox>
+        </DockPanel>
+    </Grid>
+</Window>
